@@ -1,0 +1,29 @@
+package chef;
+
+public class State2Cook extends ChefState{
+
+	public State2Cook(Chef chef) {
+		super(chef);
+	}
+
+	@Override
+	public void activity() {
+		int waitingTime = (6-chef.getSpeed());
+		if(waitingTime < 0) waitingTime = 0;
+		try {			
+			chef.thread.sleep(waitingTime);
+		}catch (Exception e) {
+			return;
+		}
+		// get chat to change state
+		changeState();
+		System.out.println(chef.getName() +  " 2 ");
+		
+	}
+
+	@Override
+	public void changeState() {
+		chef.state = new State3Done(chef);
+	}
+	
+}

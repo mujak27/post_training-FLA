@@ -1,0 +1,13 @@
+package chat;
+
+import customer.Customer;
+import waiter.Waiter;
+
+
+public class Mediator {
+	Customer customer;
+	Waiter
+
+	
+
+}

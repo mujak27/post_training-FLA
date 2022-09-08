@@ -1,0 +1,50 @@
+package customer;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import chat.Chat;
+import postTraining.Restaurant;
+import worker.WorkerFactory;
+
+public class CustomerGenerator implements Runnable{
+
+	Thread thread;
+	
+	public CustomerGenerator() {
+		thread = new Thread();
+		thread.start();
+	}
+	
+	@Override
+	public void run() {
+		System.out.println("Cusomer Gen running\n");
+		int rand = ThreadLocalRandom.current().nextInt(0,4);
+		int nCustomer = Restaurant.getInstance().customers.size() ;
+		int chairs = Restaurant.getInstance().chairs;
+		if(rand == 0 && nCustomer  < chairs) {
+			generate();
+		}
+		if(thread.isAlive()) run();
+	}
+	
+	public String nameGenerator() {
+		String res = "";
+		do {
+			res = "";
+			res = res + ('A' + ThreadLocalRandom.current().nextInt(0,26));
+			res = res + ('A' + ThreadLocalRandom.current().nextInt(0,26));
+			System.out.println("try customer " + res);
+		}while(!WorkerFactory.validateName(res));
+		return res;
+	}
+	
+	public void generate() {
+		String name = nameGenerator();
+		int tolerance = ThreadLocalRandom.current().nextInt(20,30);
+		Chat chat = new Chat();
+		Customer customer = new Customer(name, tolerance, chat);
+		chat.init(customer);
+	}
+
+}

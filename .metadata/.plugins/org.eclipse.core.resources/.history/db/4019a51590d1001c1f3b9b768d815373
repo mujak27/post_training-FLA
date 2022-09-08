@@ -1,0 +1,5 @@
+package chef;
+
+public class State2Cook extends ChefState{
+	
+}

@@ -1,0 +1,24 @@
+package waiter;
+
+public class State4WaitCook extends WaiterState{
+
+	public State4WaitCook(Waiter waiter) {
+		super(waiter);
+		
+	}
+
+	@Override
+	public void activity() {
+		// wait 1 second
+		
+	}
+
+	@Override
+	public void changeState() {
+		// to state 1
+		
+	}
+	
+	
+
+}

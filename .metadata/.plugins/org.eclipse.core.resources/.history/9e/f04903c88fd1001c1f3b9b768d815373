@@ -1,0 +1,19 @@
+package chef;
+
+import worker.Worker;
+
+public class Chef extends Worker {
+
+	public Chef(String name, int speed, Thread thread) {
+		super(name, speed, thread);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}

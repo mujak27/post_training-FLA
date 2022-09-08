@@ -1,0 +1,15 @@
+package worker;
+
+public abstract class Worker {
+	public Worker(String name, WorkerState state, int speed) {
+		super();
+		this.name = name;
+		this.state = state;
+		this.speed = speed;
+	}
+	String name;
+	WorkerState state;
+	int speed;
+	
+	
+}

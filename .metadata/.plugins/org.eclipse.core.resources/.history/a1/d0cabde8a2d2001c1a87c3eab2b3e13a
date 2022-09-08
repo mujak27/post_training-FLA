@@ -1,0 +1,172 @@
+package postTraining;
+
+import java.util.ArrayList;
+
+import chat.Chat;
+import chef.Chef;
+import customer.Customer;
+import customer.CustomerGenerator;
+import human.Human;
+import waiter.Waiter;
+import worker.Worker;
+import worker.WorkerFactory;
+
+public class Restaurant implements Runnable{
+	
+	String name;
+	public int chairs;
+	int money;
+	int score;
+	Thread thread;
+	
+	CustomerGenerator customerGenerator;
+	WorkerFactory workerFactory = new WorkerFactory();
+	
+	public ArrayList<Worker> chefs = new ArrayList<>() ;
+	ArrayList<Worker> availableChefs = new ArrayList<>() ;
+	
+	public ArrayList<Worker> waiters = new ArrayList<>() ;
+	ArrayList<Worker> availableWaiters = new ArrayList<>() ;
+	
+	public ArrayList<Customer> customers = new ArrayList<>();
+	
+	ArrayList<Chat> lookingForWaiter = new ArrayList<>();
+	ArrayList<Chat> lookingForChef = new ArrayList<>();
+	
+	static Restaurant restaurant;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Restaurant(int chairs, int money, int score) {
+		super();
+		this.chairs = chairs;
+		this.money = money;
+		this.score = score;
+		customerGenerator = new CustomerGenerator();
+	}
+
+	public static Restaurant getInstance() {
+		if(restaurant == null) restaurant = new Restaurant(4, 1300, 0);
+		return restaurant;
+	}
+	
+	public void newCustomer(Customer customer) {
+		customers.add(customer);
+	}
+	
+	public void customerLeave(Customer customer) {
+		customers.remove(customer);
+	}
+	
+	public void newChef(Chef chef) {
+		chefs.add(chef);
+		availChef(chef);
+	}
+	
+	public void newWaiter(Waiter waiter) {
+		waiters.add(waiter);
+		availWaiter(waiter);
+	}
+
+	public void availChef(Chef chef) {
+		System.out.println("new idle chef!");
+		if(lookingForChef.size() > 0) {
+			Chat chat = lookingForChef.get(0);
+			lookingForChef.remove(0);
+			chat.startCooking(chef);
+		}else {
+			availableChefs.add(chef);
+		}
+	}
+	
+	public void availWaiter(Waiter waiter) {
+		System.out.println("new idle waiter!");
+		if(lookingForWaiter.size() > 0) {
+			Chat chat = lookingForWaiter.get(0);
+			lookingForWaiter.remove(0);
+			if(chat.state == 2) {
+				chat.setWaiter(waiter);
+			}else{
+				chat.waiterToCustomer(waiter);
+			}
+		}else {
+			availableWaiters.add(waiter);
+		}
+	}
+	
+	public void assignChef(Chat chat) {
+		if(availableChefs.size() > 0) {
+			Chef chef = (Chef)availableChefs.get(0);
+			availableChefs.remove(0);
+			chat.startCooking(chef);
+		}else {
+			lookingForChef.add(chat);
+		}
+	}
+	
+	public void assignWaiter(Chat chat) {
+		if(availableWaiters.size() > 0) {
+			System.out.println("idle waiter get");
+			Waiter waiter = (Waiter)availableWaiters.get(0);
+			availableWaiters.remove(0);
+			System.out.println("state " + chat.state);
+			if(chat.state == 2) {
+				chat.getWaiter(waiter);
+			}else{
+				chat.waiterToCustomer(waiter);
+			}
+		}else {
+			System.out.println("no idle waiter ");
+			lookingForWaiter.add(chat);
+		}
+	}
+	
+	public void Start() {
+		System.out.println("started");
+		newWaiter((Waiter)(workerFactory.createWorker("Waiter", "MU", 1).Build()));
+		newWaiter((Waiter)(workerFactory.createWorker("Waiter", "UZ", 1).Build()));
+		newChef((Chef)(workerFactory.createWorker("Chef", "ZA", 1).addSkill(1).Build()));
+		newChef((Chef)(workerFactory.createWorker("Chef", "AK", 1).addSkill(1).Build()));
+		customerGenerator.start();
+		thread = new Thread(this);
+		thread.start();
+	}
+	
+	public void printState() {
+//		for (int i = 0; i < 50; ++i) System.out.println();
+		System.out.println("states :");
+		for(Worker waiter : waiters) {
+			if(waiter.chat != null)
+			System.out.println("waiter" + waiter.getName() + " -> " + waiter.chat.getCustomer().getName());
+		}
+		for(Worker chef : chefs) {
+			if(chef.chat != null)
+			System.out.println("chef " + chef.getName() + " -> " + chef.chat.getCustomer().getName());
+		}
+		for(Customer customer: customers) {
+//			System.out.println("customer " + customer.getName());
+		}
+		
+	}
+
+	@Override
+	public void run() {
+		printState();
+		try {
+			thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("avail waiter " + availableWaiters.size());
+		System.out.println("avail chef " + availableChefs.size());
+		if(thread.isAlive()) run();
+	}
+
+}

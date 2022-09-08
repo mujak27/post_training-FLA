@@ -1,0 +1,167 @@
+package chat;
+
+import chef.Chef;
+import customer.Customer;
+import postTraining.Restaurant;
+import waiter.Waiter;
+
+import waiter.State1Idle;
+
+public class Chat extends Mediator  {
+
+	Thread thread;
+
+	public int state;
+
+	Restaurant restaurant = Restaurant.getInstance();
+
+	public void start() {
+//		thread = new Thread(this);
+//		thread.start();
+	}
+//	@Override
+//	public void run() {
+//		// TODO Auto-generated method stub
+//
+//	}
+
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+		customer.chat = this;
+	}
+
+	public void removeCustomer() {
+		if (customer == null)
+			return;
+		customer.chat = null;
+		customer = null;
+	}
+
+	public Waiter getWaiter() {
+		return waiter;
+	}
+
+	public void setWaiter(Waiter waiter) {
+		System.out.println("chat set");
+		waiter.chat = this;
+		this.waiter = waiter;
+	}
+
+	public void removeWaiter() {
+		if (waiter == null)
+			return;
+		waiter.chat = null;
+		waiter = null;
+	}
+
+	public Chef getChef() {
+		return chef;
+	}
+
+	public void setChef(Chef chef) {
+		chef.chat = this;
+		this.chef = chef;
+	}
+
+	public void removeChef() {
+		if (chef == null)
+			return;
+		chef.chat = null;
+		chef = null;
+	}
+
+	// called when new customer generated
+	public void init(Customer customer) {
+		System.out.println(customer.getName() + " init");
+		setCustomer(customer);
+		state = 1;
+		state++;
+		restaurant.assignWaiter(this);
+	}
+	// 1 0 0
+
+	// 2 called in restaurant
+	public void getWaiter(Waiter waiter) {
+		state++;
+		setWaiter(waiter);
+		System.out.println(customer.getName() + " get waiter " + waiter.getName());
+		customer.getState().changeState(null);
+		waiter.getState().changeState("Order");
+	}
+	// 2 2 0
+
+	// 3 called from state2 waiter
+	public void bringToChef() {
+		state++;
+		System.out.println(customer.getName() + " walk to chef ");
+		customer.getState().changeState(null);
+		waiter.getState().changeState(null);
+	}
+	// 3 3 0
+
+	// 4 called from state4 waiter
+	public void waitingChef() {
+		state++;
+		System.out.println(customer.getName() + " looking for chef");
+		waiter.getState().changeState(null);
+		Restaurant.getInstance().assignChef(this);
+	}
+	// 3 4 0
+
+	// 5 this is called from restaurant
+	public void startCooking(Chef chef) {
+		state++;
+		System.out.println(customer.getName() + " get chef " + chef.getName());
+		customer.getState().changeState(null);
+		waiter.getState().changeState(null);
+		removeWaiter();
+		setChef(chef);
+		chef.getState().changeState();
+		customer.setCookingPoint(chef.getSkill());
+	}
+	// 4 1->0 2
+
+	// 6 called from chef when done cooking
+	public void doneCooking() {
+		state++;
+		System.out.println(customer.getName() + " done cooking");
+		chef.getState().changeState();
+		removeChef();
+		Restaurant.getInstance().assignWaiter(this);
+	}
+	// 4 0 3->0
+
+	// 7 this is called from restaurant when waiter is assigned*
+	public void waiterToCustomer(Waiter waiter) {
+		state++;
+		setWaiter(waiter);
+		System.out.println(customer.getName() + " get new waiter " + waiter.getName());
+		waiter.chat = this;
+		customer.getState().changeState(null);
+		waiter.getState().changeState("Food");
+	}
+	// 5 5 0
+
+	// 8 this is called when waiter reach customer
+	public void startEating() {
+		state++;
+		System.out.println(customer.getName() + " starteating");
+		customer.getState().changeState(null);
+		waiter.getState().changeState(null);
+		removeWaiter();
+	}
+	// 6 6->0 0
+
+	// 9 this is called when customer done eating
+	public void doneEating() {
+		customer.getState().changeState(null);
+		restaurant.customerLeave(customer);
+		System.out.println(customer.getName() + " done eating");
+	}
+
+}

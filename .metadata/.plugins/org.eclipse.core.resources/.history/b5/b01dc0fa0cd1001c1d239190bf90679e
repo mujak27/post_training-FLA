@@ -1,0 +1,10 @@
+package waiter;
+
+public class State1Idle extends WaiterState{
+
+	public State1Idle(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+}

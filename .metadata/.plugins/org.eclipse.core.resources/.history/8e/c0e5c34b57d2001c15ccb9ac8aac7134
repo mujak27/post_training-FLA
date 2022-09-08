@@ -1,0 +1,22 @@
+package worker;
+
+public class WorkerFactory {
+	
+	Worker worker;
+	
+	public WorkerFactory createWorker(String type, String name, int speed) {
+		if(type == "Waiter") {
+			worker = new Waiter(name, speed);
+		}
+		return this;
+	}
+
+	public WorkerFactory addSkill(int skill) {
+		
+	}
+	
+	public Worker Build() {
+		return worker;
+	}
+	
+}

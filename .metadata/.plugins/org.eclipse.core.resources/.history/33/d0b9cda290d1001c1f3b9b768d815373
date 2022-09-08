@@ -1,0 +1,22 @@
+package chef;
+
+public class State3Done extends ChefState{
+
+	public State3Done(Chef chef) {
+		super(chef);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

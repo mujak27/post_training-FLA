@@ -1,0 +1,14 @@
+package worker;
+
+public abstract class WorkerState {
+
+	Worker worker;
+	
+	public WorkerState(Worker worker) {
+		this.worker = worker;
+	}
+
+	public abstract void activity();
+	
+	public abstract void changeState();
+}

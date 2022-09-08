@@ -1,0 +1,26 @@
+package waiter;
+
+public class State5ServingFood extends WaiterState {
+
+	public State5ServingFood(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		try {			
+			waiter.thread.sleep(1000);
+		}catch (Exception e) {
+			return;
+		}
+		waiter.chat.startEating();
+	}
+
+	@Override
+	public void changeState() {
+		waiter.state = new State1Idle(waiter);
+		// TODO broadcast new available 
+	}
+
+}

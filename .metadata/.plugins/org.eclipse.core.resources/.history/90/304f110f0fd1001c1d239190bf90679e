@@ -1,0 +1,36 @@
+package waiter;
+
+import customer.Customer;
+
+public class State2TakeOrder extends WaiterState {
+
+	public State2TakeOrder(Waiter waiter) {
+		super(waiter);
+	}
+
+	public State2TakeOrder(Waiter waiter, Customer customer) {
+		super(waiter);
+		waiter.setCustomer(customer);
+	}
+
+	@Override
+	public void activity() {
+		int waitingTime = (6-waiter.getSpeed());
+		if(waitingTime < 0) waitingTime = 0;
+		try {			
+			waiter.thread.sleep(waitingTime);
+		}catch (Exception e) {
+			return;
+		}
+		customer.tolerance--;
+		System.out.println(customer.name +  " 3 " + customer.tolerance);
+		
+	}
+
+	@Override
+	public void changeState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

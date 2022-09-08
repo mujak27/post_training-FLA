@@ -1,0 +1,30 @@
+package worker;
+
+public abstract class Worker extends Human  implements Runnable  {
+
+	public Worker(String name, int speed, Thread thread) {
+		super();
+		this.name = name;
+		this.speed = speed;
+		this.thread = thread;
+	}
+
+	String name;
+	int speed;
+	public Thread thread;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	
+	
+}

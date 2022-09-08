@@ -1,0 +1,29 @@
+package customer;
+
+public class State2Order extends CustomerState {
+
+	public State2Order(Customer customer) {
+		super(customer);
+	}
+
+	@Override
+	public void changeState() {
+		customer.state = new State3Wait(customer);
+		customer.thread.interrupt();
+	}
+
+	@Override
+	public void activity() {
+		try {
+		      synchronized(customer.thread) {
+		    	  customer.thread.wait();
+		        }
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("thread 2 stopped");
+			return;
+		}
+		
+	}
+	
+}

@@ -1,0 +1,27 @@
+package customer;
+
+public class State6Eat extends CustomerState {
+
+	public State6Eat(Customer customer) {
+		super(customer);
+	}
+
+	@Override
+	public void changeState(String type) {
+		// pop this customer
+		System.out.println("end " + customer.getName());
+		customer.thread.stop();
+	}
+	@Override
+	public void activity() {
+		try {		
+			customer.thread.sleep(6000);
+		} catch (InterruptedException e1) {
+			System.out.println("thread 6 stopped");
+			return;
+		}
+		customer.chat.doneEating();
+		
+	}
+	
+}

@@ -1,0 +1,95 @@
+package chat;
+
+import chef.Chef;
+import chef.State1Idle;
+import customer.Customer;
+import postTraining.Restaurant;
+import waiter.Waiter;
+
+public class Chat extends Mediator{
+	
+	int state;
+
+	@Override
+	public void init(Customer customer) {
+		setCustomer(customer);
+		state = 1;
+	}
+	// 1 0 0
+	
+//	@Override
+//	public void order() {
+//		customer.getState().changeState();
+//	}
+
+	@Override
+	public void getWaiter(Waiter waiter) {
+		setWaiter(waiter);
+		customer.getState().changeState();
+		waiter.getState().changeState();
+		state++;
+	}
+	// 2 2 0
+
+	@Override
+	public void lookingForChef() {
+		customer.getState().changeState();
+		waiter.getState().changeState();
+		state++;
+	}
+	// 3 3 0
+	
+	public void bringToChef() {
+		waiter.getState().changeState();
+		Restaurant.getInstance().assignChef(this);
+		state++;
+	}
+	// 3 4 0
+
+	// this is called from restaurant
+	@Override
+	public void startCooking(Chef chef) {
+		setChef(chef);
+		customer.getState().changeState();
+		waiter.getState().changeState();
+		setWaiter(null);
+		chef.getState().changeState();
+		state++;
+	}
+	// 4 0 2
+	
+	// called from chef when done cooking
+	public void doneCooking() {
+		chef.getState().changeState();
+		setChef(null);
+		Restaurant.getInstance().assignWaiter(this);
+	}
+	// 4 0 3->0
+
+	// this is called from restaurant when waiter is assigned
+	@Override
+	public void waiterToCustomer() {
+		customer.getState().changeState();
+		State1Idle(waiter.getState()).changeState5();
+		state++;
+	}
+	// 5 5 0
+
+	@Override
+	public void startEating() {
+		customer.getState().changeState();
+		waiter.getState().changeState();
+		state++;
+		
+	}
+
+	@Override
+	public void doneEating() {
+		customer.getState().changeState();
+		// destroy this
+		
+	}
+
+
+
+}

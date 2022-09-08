@@ -1,0 +1,29 @@
+package waiter;
+
+public class State3WaitCook extends WaiterState{
+
+	public State3WaitCook(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		try {
+		      synchronized(waiter.thread) {
+		    	  waiter.thread.wait();
+		        }
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			return;
+		}
+		
+	}
+
+	@Override
+	public void changeState() {
+		waiter.thread.interrupt();
+		waiter.state = new State3WaitCook(waiter);
+	}
+
+}

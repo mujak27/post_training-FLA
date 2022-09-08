@@ -1,0 +1,18 @@
+package waiter;
+
+import worker.Worker;
+
+public class Waiter extends Worker implements Runnable {
+
+	public Waiter(String name, int speed) {
+		super(name, speed);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

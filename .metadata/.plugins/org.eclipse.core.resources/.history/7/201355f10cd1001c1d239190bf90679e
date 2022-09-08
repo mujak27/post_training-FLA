@@ -1,0 +1,5 @@
+package waiter;
+
+public class State1Idle {
+
+}

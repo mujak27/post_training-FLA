@@ -1,0 +1,38 @@
+package waiter;
+
+import customer.Customer;
+
+public class State1Idle extends WaiterState{
+
+	public State1Idle(Waiter waiter) {
+		super(waiter);
+	}
+
+	@Override
+	public void activity() {
+		try {
+		      synchronized(waiter.thread) {
+		    	  waiter.thread.wait();
+		        }
+		} catch (InterruptedException e1) {
+			System.out.println("waiter interrupted");
+			return;
+		}
+	}
+
+	@Override
+	public void changeState() {
+		waiter.state = new State2TakeOrder(waiter);
+		waiter.thread.notify();
+	}
+
+	public void changeState2() {
+		waiter.state = new State2TakeOrder(waiter);
+		waiter.thread.notify();
+	}
+	public void changeState5() {
+		waiter.state = new State5ServingFood(waiter);
+		waiter.thread.notify();
+	}
+
+}

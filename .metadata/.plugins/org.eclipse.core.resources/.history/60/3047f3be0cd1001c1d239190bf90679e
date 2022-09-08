@@ -1,0 +1,20 @@
+package waiter;
+
+import worker.Worker;
+
+public class Waiter extends Worker {
+	WaiterState state;
+
+	public Waiter(String name, int speed, Thread thread, WaiterState state) {
+		super(name, speed, thread);
+		this.state = state;
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

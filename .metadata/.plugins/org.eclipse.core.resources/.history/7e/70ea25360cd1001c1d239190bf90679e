@@ -1,0 +1,12 @@
+package waiter;
+
+import worker.Worker;
+
+public class Waiter extends Worker {
+
+	public Waiter(String name, int speed) {
+		super(name, speed);
+		// TODO Auto-generated constructor stub
+	}
+	
+}

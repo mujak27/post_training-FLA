@@ -1,0 +1,13 @@
+package worker;
+
+public class WorkerFactory {
+	
+	Worker worker;
+	
+	public createWorker
+
+	public WorkerFactory addSkill(int skill) {
+		
+	}
+	
+}

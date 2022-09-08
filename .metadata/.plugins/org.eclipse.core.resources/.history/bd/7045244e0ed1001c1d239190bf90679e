@@ -1,0 +1,29 @@
+package waiter;
+
+import customer.Customer;
+
+public class State2TakeOrder extends WaiterState {
+
+	public State2TakeOrder(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	public State2TakeOrder(Waiter waiter, Customer customer) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

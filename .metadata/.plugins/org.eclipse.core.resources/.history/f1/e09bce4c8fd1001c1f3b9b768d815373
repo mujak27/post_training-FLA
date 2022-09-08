@@ -1,0 +1,35 @@
+package waiter;
+
+import customer.Customer;
+
+public class State2TakeOrder extends WaiterState {
+
+	public State2TakeOrder(Waiter waiter) {
+		super(waiter);
+	}
+
+	public State2TakeOrder(Waiter waiter, Customer customer) {
+		super(waiter);
+	}
+
+	@Override
+	public void activity() {
+		int waitingTime = (6-waiter.getSpeed());
+		if(waitingTime < 0) waitingTime = 0;
+		try {			
+			waiter.thread.sleep(waitingTime);
+		}catch (Exception e) {
+			return;
+		}
+		// get chat to change state
+		changeState();
+		System.out.println(waiter.getName() +  " 2 ");
+	}
+
+	@Override
+	public void changeState() {
+		waiter.setCustomer(null);
+		
+	}
+
+}

@@ -1,0 +1,17 @@
+package customer;
+
+public class CustomerGenerator implements Runnable{
+
+	Thread thread;
+	
+	public public CustomerGenerator() {
+		thread = new Thread;
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

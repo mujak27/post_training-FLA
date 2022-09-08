@@ -1,0 +1,41 @@
+package chat;
+
+import chef.Chef;
+import customer.Customer;
+import waiter.Waiter;
+
+
+public abstract class Mediator {
+	Customer customer;
+	Waiter waiter;
+	Chef chef;
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	public Waiter getWaiter() {
+		return waiter;
+	}
+	public void setWaiter(Waiter waiter) {
+		this.waiter = waiter;
+	}
+	public Chef getChef() {
+		return chef;
+	}
+	public void setChef(Chef chef) {
+		this.chef = chef;
+	}
+	
+	public abstract void order();
+	public abstract void orderWaiter();
+	public abstract void foodOrdered();
+	public abstract void waiterToCook();
+	public abstract void cookToWaiter();
+	
+	
+	
+
+}

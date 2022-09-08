@@ -1,0 +1,36 @@
+package waiter;
+
+import customer.Customer;
+
+public class State1Idle extends WaiterState{
+
+	public State1Idle(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		try {
+		      synchronized(waiter.thread) {
+		    	  waiter.thread.wait();
+		        }
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			return;
+		}
+	}
+
+	@Override
+	public void changeState() {
+		waiter.state = new State2TakeOrder(waiter);
+	}
+
+	public void changeState2() {
+		waiter.state = new State2TakeOrder(waiter);
+	}
+	public void changeState5() {
+		waiter.state = new State5TakeOrder(waiter);
+	}
+
+}

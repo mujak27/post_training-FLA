@@ -1,0 +1,132 @@
+package postTraining;
+
+import java.util.ArrayList;
+
+import chat.Chat;
+import chef.Chef;
+import customer.Customer;
+import customer.CustomerGenerator;
+import human.Human;
+import waiter.Waiter;
+import worker.Worker;
+import worker.WorkerFactory;
+
+public class Restaurant implements Runnable{
+	
+	String name;
+	public int chairs;
+	int money;
+	int score;
+	Thread thread;
+	
+	CustomerGenerator customerGenerator;
+	WorkerFactory workerFactory = new WorkerFactory();
+	
+	public ArrayList<Worker> chefs = new ArrayList<>() ;
+	ArrayList<Worker> availableChefs = new ArrayList<>() ;
+	
+	public ArrayList<Worker> waiters = new ArrayList<>() ;
+	ArrayList<Worker> availableWaiters = new ArrayList<>() ;
+	
+	public ArrayList<Customer> customers = new ArrayList<>();
+	
+	ArrayList<Chat> lookingForWaiter = new ArrayList<>();
+	ArrayList<Chat> lookingForChef = new ArrayList<>();
+	
+	static Restaurant restaurant;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Restaurant(int chairs, int money, int score) {
+		super();
+		this.chairs = chairs;
+		this.money = money;
+		this.score = score;
+		customerGenerator = new CustomerGenerator();
+	}
+
+	public static Restaurant getInstance() {
+		if(restaurant == null) restaurant = new Restaurant(4, 1300, 0);
+		return restaurant;
+	}
+	
+	
+	public void newChef(Chef chef) {
+		chefs.add(chef);
+		availChef(chef);
+	}
+	
+	public void newWaiter(Waiter waiter) {
+		waiters.add(waiter);
+		availWaiter(waiter);
+	}
+
+	public void availChef(Chef chef) {
+		if(lookingForChef.size() > 0) {
+			Chat chat = lookingForChef.get(0);
+			lookingForChef.remove(0);
+			chat.startCooking(chef);
+		}else {
+			availableChefs.add(chef);
+		}
+	}
+	
+	public void availWaiter(Waiter waiter) {
+		if(lookingForWaiter.size() > 0) {
+			Chat chat = lookingForWaiter.get(0);
+			lookingForChef.remove(0);
+			if(chat.state == 2) {
+				chat.setWaiter(waiter);
+			}else{
+				chat.waiterToCustomer(waiter);
+			}
+		}else {
+			availableWaiters.add(waiter);
+		}
+	}
+	
+	public void assignChef(Chat chat) {
+		if(availableChefs.size() > 0) {
+			Chef chef = (Chef)availableChefs.get(0);
+			availableChefs.remove(0);
+			chat.startCooking(chef);
+		}else {
+			lookingForChef.add(chat);
+		}
+	}
+	
+	public void assignWaiter(Chat chat) {
+		if(availableWaiters.size() > 0) {
+			Waiter waiter = (Waiter)availableWaiters.get(0);
+			availableWaiters.remove(0);
+			if(chat.state == 2) {
+				chat.setWaiter(waiter);
+			}else{
+				chat.waiterToCustomer(waiter);
+			}
+		}else {
+			lookingForWaiter.add(chat);
+		}
+	}
+	
+	public void Start() {
+		newWaiter((Waiter)(workerFactory.createWorker("Waiter", "MU", 1).Build()));
+		newWaiter((Waiter)(workerFactory.createWorker("Waiter", "UZ", 1).Build()));
+		newChef((Chef)(workerFactory.createWorker("Chef", "ZA", 1).addSkill(1).Build()));
+		newChef((Chef)(workerFactory.createWorker("Chef", "AK", 1).addSkill(1).Build()));
+		thread.start();
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

@@ -1,0 +1,13 @@
+package worker;
+
+public abstract class Worker implements Runnable  {
+	public Worker(String name, int speed) {
+		super();
+		this.name = name;
+		this.speed = speed;
+	}
+	String name;
+	int speed;
+	
+	
+}

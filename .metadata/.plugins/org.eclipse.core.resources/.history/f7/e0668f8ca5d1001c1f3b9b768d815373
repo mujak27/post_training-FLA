@@ -1,0 +1,22 @@
+package waiter;
+
+public class State4BringOrder extends WaiterState{
+
+	public State4BringOrder(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

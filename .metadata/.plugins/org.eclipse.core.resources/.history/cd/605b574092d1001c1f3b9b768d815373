@@ -1,0 +1,24 @@
+package waiter;
+
+public class State3WaitCook extends WaiterState{
+
+	public State3WaitCook(Waiter waiter) {
+		super(waiter);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void activity() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeState() {
+		public void changeState() {
+			waiter.state = new State3WaitCook(waiter);
+		}
+		
+	}
+
+}

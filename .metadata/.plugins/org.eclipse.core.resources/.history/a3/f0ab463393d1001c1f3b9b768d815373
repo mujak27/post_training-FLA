@@ -1,0 +1,22 @@
+package chef;
+
+import worker.Worker;
+
+public class Chef extends Worker {
+	
+	ChefState state;
+
+	public Chef(String name, int speed, Thread thread) {
+		super(name, speed, thread);
+		state = new State1Idle(this);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}

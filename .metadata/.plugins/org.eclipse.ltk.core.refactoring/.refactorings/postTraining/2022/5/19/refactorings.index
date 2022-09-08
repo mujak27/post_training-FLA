@@ -1,0 +1,14 @@
+1651493987333	Delete element
+1651562537779	Rename type 'Chat'
+1651563454146	Move compilation unit
+1651563458730	Move compilation unit
+1651563464260	Move compilation unit
+1651563868398	Rename type 'orderState1'
+1651580964959	Move compilation unit
+1651586831539	Rename type 'WaitState1'
+1651586851092	Rename type 'State1Wait'
+1651586868894	Rename type 'WaitState2'
+1651586880297	Rename type 'WaitState3'
+1651586890706	Rename type 'OrderState1'
+1651586897602	Rename type 'OrderState2'
+1651588623759	Rename method 'stopThread'

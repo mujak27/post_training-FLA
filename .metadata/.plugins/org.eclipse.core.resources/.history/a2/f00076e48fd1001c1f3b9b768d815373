@@ -1,0 +1,28 @@
+package waiter;
+
+import chef.Chef;
+import customer.Customer;
+import worker.Worker;
+
+public class Waiter extends Worker {
+	WaiterState state;
+	
+	public WaiterState getState() {
+		return state;
+	}
+
+	public void setState(WaiterState state) {
+		this.state = state;
+	}
+
+	public Waiter(String name, int speed, Thread thread, WaiterState state) {
+		super(name, speed, thread);
+		this.state = state;
+	}
+
+	@Override
+	public void run() {
+		
+	}
+	
+}

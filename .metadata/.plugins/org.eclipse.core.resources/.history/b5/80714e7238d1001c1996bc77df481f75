@@ -1,0 +1,17 @@
+package chat;
+
+import chef.Chef;
+import customer.Customer;
+import waiter.Waiter;
+
+
+public class Mediator {
+	Customer customer;
+	Waiter waiter;
+	Chef chef;
+	
+	
+
+	
+
+}
